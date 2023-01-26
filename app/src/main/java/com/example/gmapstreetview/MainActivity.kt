@@ -42,7 +42,10 @@ class MainActivity : ComponentActivity() {
 fun Greeting(name: String) {
     val singapore = LatLng(1.35, 103.87)
     var isPanningEnabled by remember { mutableStateOf(false) }
-    var isZoomEnabled by remember { mutableStateOf(false) }
+    var isStreetNamesEnabled by remember { mutableStateOf(true) }
+    var isUserNavigationEnabled by remember { mutableStateOf(true) }
+    var isZoomGesturesEnabled by remember { mutableStateOf(true) }
+
     val camera = rememberStreetViewCameraPositionState()
     Box(Modifier.fillMaxSize(), Alignment.BottomStart) {
         StreetView(
@@ -50,14 +53,17 @@ fun Greeting(name: String) {
             cameraPositionState = camera,
             streetViewPanoramaOptionsFactory = {
                 StreetViewPanoramaOptions().position(singapore)
+//                StreetViewPanoramaOptions().zoomGesturesEnabled(true)
             },
             isPanningGesturesEnabled = isPanningEnabled,
-            isZoomGesturesEnabled = isZoomEnabled,
+            isStreetNamesEnabled= isStreetNamesEnabled,
+            isUserNavigationEnabled =isUserNavigationEnabled,
+            isZoomGesturesEnabled=isZoomGesturesEnabled,
             onClick = {
                 Log.d(TAG, "Street view clicked")
             },
             onLongClick = {
-                Log.d(TAG, "Street view long clicked")
+                Log.d(TAG, "Street view long clicked ${it.tilt} ${it.bearing} ${it.toString()}")
             }
         )
     }
